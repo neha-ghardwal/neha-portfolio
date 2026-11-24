@@ -1,13 +1,52 @@
+// Single source of truth for all portfolio content.
+// Wrap a number in **double asterisks** to render it as a highlighted metric.
+// Synced with Neha_Resume.pdf (Nov 2026).
+
+// Production URL of the site. Set NEXT_PUBLIC_SITE_URL in Vercel once the
+// domain is final — it drives canonical URLs, sitemap, robots and OG tags.
+export const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://neha-ghardwal.vercel.app"
+).replace(/\/$/, "");
+
 export const profile = {
   name: "Neha",
-  title: "Backend Software Engineer",
-  tagline:
-    "Turning complex data problems into fast, reliable systems.",
-  bio: "Backend Software Engineer with a year of production experience turning complex data problems into fast, reliable systems. Proficient in Go, OpenSearch, MongoDB, and PostgreSQL — with hands-on depth in concurrent programming, distributed data pipelines, and high-performance API design. Brings a rare combination of engineering rigor and end-to-end ownership: from architecting data models to deploying on AWS independently. Eager to work on hard backend problems where performance, reliability, and clean system design actually matter.",
-  location: "Noida, UP, India",
+  fullName: "Neha Ghardwal",
+  title: "Software Engineer · Go & Java",
+  // Hero (left column). Each fact appears in exactly one section.
+  hero: {
+    latest: { label: "Building", text: "an event-driven payment system", href: "#projects" },
+    lead: "Software engineer. I build",
+    bold: "backend systems that hold up in production.",
+    summary:
+      "Go and Java across search, data pipelines and event-driven services, plus the GenAI tooling my team ships with.",
+    stats: [
+      { value: "1+ yrs", label: "shipping to production" },
+      { value: "4.5K+", label: "trade partners on my services" },
+      { value: "1825", label: "CodeChef rating (4★)" },
+    ],
+  },
+  // Hero (right column) terminal: `whoami --now` key/value rows.
+  now: [
+    { key: "role", value: "SWE (Go) @ Orangutan" },
+    { key: "stack", value: "Go · Java · Postgres · OpenSearch" },
+    { key: "building", value: "Order-to-Payment system", href: "#projects" },
+    { key: "status", value: "open to SWE roles", href: "#contact" },
+  ],
+  // About section.
+  about: {
+    headline: "I care about the unglamorous parts of backend work, the parts that keep systems fast and correct as they grow.",
+    body: "Data models that stay sane at 100x the rows, pipelines that are safe to re-run, APIs with clear contracts. I like owning a feature from the first design doc to watching it in production, and I go deeper on distributed systems through side projects and competitive programming.",
+    facts: [
+      { icon: "briefcase", text: "SWE at Orangutan Technologies" },
+      { icon: "pin", text: "Delhi, India" },
+      { icon: "grad", text: "B.Tech CSE, Bennett University" },
+    ],
+  },
+  location: "Delhi, India",
   email: "ghardwalneha15@gmail.com",
-  phone: "8700507765",
+  phone: "+91 8700507765",
   resumeUrl: "/Neha_Resume.pdf",
+  photo: "/neha.jpg",
   social: {
     github: "https://github.com/neha-ghardwal",
     linkedin: "https://linkedin.com/in/nehaghardwal",
@@ -15,96 +54,142 @@ export const profile = {
   },
 };
 
-export const experience = [
+export const experience: {
+  company: string;
+  about: string;
+  roles: {
+    title: string;
+    period: string;
+    location: string;
+    badge?: string;
+    // Verb first, one sentence, measurable result. ** marks the number.
+    // The first `visible` bullets show; the rest sit behind "Show N more".
+    points: string[];
+  }[];
+}[] = [
   {
-    company: "Orangutan Technologies Pvt Ltd",
-    role: "Backend/Golang Developer",
-    location: "Noida, UP",
-    period: "July 2025 – Present",
-    points: [
-      "Owned the backend development of FloDMS, a business-critical dealer management platform supporting Faber India's nationwide network of 4.5K+ trade partners and 96+ field sales members.",
-      "Implemented a production-grade ingestion workflow for dealer/sales data, automating file lifecycle management in Wasabi and indexing 50K+ records/min into OpenSearch.",
-      "Eliminated daily reporting delays by developing AWS-scheduled enrichment jobs that hydrate 10k–100k MongoDB records with dealer and user metadata using in-memory synchronization caches.",
-      "Served sub-200ms search and analytics queries across 1M+ sales records by designing paginated REST APIs integrating OpenSearch, PostgreSQL, and MongoDB.",
-      "Built a composable reporting engine enabling HO-level revenue analysis across zones, channels, and product categories with YoY growth insights, replacing static Excel-based reports with on-demand business intelligence dashboards.",
-      "Containerized backend services using Docker and contributed to deployment and operational workflows.",
+    company: "Orangutan Technologies",
+    about: "FloDMS · Faber India's B2B distribution platform",
+    roles: [
+      {
+        title: "Software Engineer (Golang)",
+        period: "Jul 2025 to now",
+        location: "Noida",
+        badge: "Monthly Top Performer",
+        points: [
+          "Built an hourly Go ETL that syncs MongoDB into an OpenSearch read model, serving search over **1M+ records** in **under 200 ms**",
+          "Rebuilt data ingestion as a bounded-concurrency Go worker pool, cutting runs from **30+ minutes to under 1 minute**",
+          "Led the move of ticket filing (**6,000+** claims a month) from a synchronous to an event-driven pipeline with **zero disruption**",
+          "Designed a self-serve reporting engine with a dynamic query builder that replaced manual Excel reports, saving **15 hours a week**",
+          "Automated enrichment of up to **100K records** per run with AWS-scheduled jobs and a TTL cache that removed redundant DB reads",
+          "Built a Java tool that anonymizes **4K+** client records with deterministic hashing, keeping referential integrity intact",
+          "Rolled out shared GenAI workflows (Claude Code, MCP, agents) for PR review and regression tests, saving **3 to 4 hours** per feature",
+        ],
+      },
     ],
-    stack: ["Go", "OpenSearch", "MongoDB", "PostgreSQL", "AWS", "Docker", "Wasabi"],
   },
 ];
 
-export const projects = [
+export const experienceVisible = 4;
+
+export type ProjectLinks = { live?: string; github?: string };
+
+export const projects: {
+  name: string;
+  tagline: string;
+  period: string;
+  status?: string;
+  points: string[];
+  stack: string[];
+  links: ProjectLinks;
+}[] = [
   {
-    name: "Learnly — Skill Barter System",
-    period: "Feb 2025 – June 2025",
-    description:
-      "Full-stack peer-to-peer skill exchange platform with JWT-secured auth, a searchable user directory, and real-time WebSocket notifications — deployed and live on Vercel. Backend architected in Node.js and Express with WebSocket-powered real-time notifications and Calendly-integrated session scheduling.",
-    stack: ["React.js", "TypeScript", "Redux", "Node.js", "Express", "WebSockets"],
+    name: "Order-to-Payment System",
+    tagline: "Event-driven payments with exactly-once effects",
+    period: "May 2026 – Present",
+    status: "In progress",
+    points: [
+      "Designed a multi-tier payment platform: **2** microservices (orders, payments) with separate databases behind an API gateway.",
+      "Reduced failed-payment recovery time by **40%** with event-driven processing: consumer groups for at-least-once delivery, idempotency keys against double charges, exponential-backoff retries and a dead-letter queue.",
+    ],
+    stack: ["Go", "PostgreSQL", "Redis Streams", "Docker", "Stripe"],
     links: {},
   },
   {
+    name: "Learnly",
+    tagline: "Skill barter platform — teach what you know, learn what you don't",
+    period: "Feb 2025 – Jun 2025",
+    points: [
+      "Peer-to-peer skill exchange platform with JWT auth, a searchable user directory and real-time WebSocket notifications.",
+      "Improved match relevance **3x** over keyword search with a recommender using LLM embeddings and vector similarity.",
+    ],
+    stack: ["React", "TypeScript", "Node.js", "Express", "MongoDB", "WebSockets"],
+    links: { live: "https://learnly-dev.vercel.app" },
+  },
+  {
     name: "ProHealth AI Disease Predictor",
+    tagline: "ML pipeline for early disease prediction",
     period: "Sept 2024 – Jan 2025",
-    description:
-      "Machine learning pipeline that achieved 90% disease prediction accuracy on 10,000+ records and cut training compute time by 25% through linear programming optimization.",
+    points: [
+      "Machine learning pipeline that achieved **90%** disease prediction accuracy on **10,000+** records.",
+      "Cut training compute time by **25%** through linear programming optimization.",
+    ],
     stack: ["Python", "Scikit-learn", "SciPy"],
     links: {},
   },
 ];
 
-export const skills = [
+// "What I build" cards in the About section (replaces a separate skills grid).
+export const focusAreas = [
   {
-    group: "Languages",
-    items: ["Go", "C++", "Python", "TypeScript", "SQL"],
+    icon: "server",
+    title: "Backend & APIs",
+    text: "Go and Java services with clear API contracts, idempotent processing and event-driven flows.",
+    tags: ["Go", "Java", "REST", "Microservices", "Redis Streams", "Docker"],
   },
   {
-    group: "Backend",
-    items: [
-      "REST APIs",
-      "Concurrency (Goroutines, Semaphores)",
-      "Data Pipelines",
-      "Node.js",
-      "Express.js",
-      "FastAPI",
-    ],
+    icon: "database",
+    title: "Data & Search",
+    text: "Pipelines and read models that keep queries fast as data grows.",
+    tags: ["OpenSearch", "PostgreSQL", "MongoDB", "Redis", "MySQL"],
   },
   {
-    group: "Databases",
-    items: ["OpenSearch", "MongoDB", "PostgreSQL", "MySQL", "Firebase"],
-  },
-  {
-    group: "Infrastructure",
-    items: ["Docker", "AWS", "Git", "CI/CD"],
+    icon: "bot",
+    title: "AI tooling",
+    text: "GenAI workflows that take code review, debugging and regression testing off the team's plate.",
+    tags: ["Claude Code", "MCP", "AI Agents", "LLM Embeddings"],
   },
 ];
+
+export const alsoUse = ["AWS", "Linux", "Git", "CI/CD", "Python", "C++", "TypeScript"];
 
 export const education = [
   {
     school: "Bennett University, Greater Noida",
-    degree: "BTech – Computer Science and Technology",
-    period: "Aug 2021 – June 2025",
-    detail: "GPA: 9.3/10.0",
-  },
-  {
-    school: "Army Public School, Dehuroad Pune",
-    degree: "Physics, Chemistry, Maths",
-    period: "Mar 2020 – Apr 2021",
-    detail: "Percent: 89%",
+    degree: "B.Tech, Computer Science and Engineering",
+    period: "Aug 2021 – May 2025",
+    detail: "CGPA: 9.3/10",
+    coursework:
+      "Data Structures & Algorithms, Operating Systems, Computer Networks, DBMS, OOP",
   },
 ];
 
+export const competitive = [
+  { platform: "CodeChef", rating: "4★ · 1825" },
+  { platform: "LeetCode", rating: "1726" },
+  { platform: "Codeforces", rating: "Pupil · 1327" },
+  { platform: "GeeksforGeeks", rating: "5★" },
+];
+
 export const awards = [
-  "Company Award: Monthly Top Performer Award for delivering high-impact backend solutions.",
-  "Academic Commendation from Bennett University for achieving a perfect 10.0 SGPA in 3 semesters.",
-  "Won 1st place in CodeCraze-CP and Innovate and Inspire, and 2nd place in Bits by Bytes.",
-  "Served as Technical Head of GDSC, conducting 30+ workshops on cloud and programming technologies.",
+  "Hackathons: 1st place in CodeCraze-CP and Innovate & Inspire; 2nd place in Bits by Bytes.",
+  "Technical Head, GDSC: led and mentored the technical team and ran 30+ cloud and programming workshops.",
 ];
 
 export const navLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
   { label: "Education", href: "#education" },
   { label: "Contact", href: "#contact" },
 ];

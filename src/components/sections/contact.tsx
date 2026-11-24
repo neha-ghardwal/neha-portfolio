@@ -9,7 +9,7 @@ import { profile } from "@/lib/data";
 export function Contact() {
   return (
     <MotionSection id="contact" className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
-      <SectionHeading index="06." title="Contact" />
+      <SectionHeading index="05." title="Contact" />
       <div className="max-w-2xl space-y-6">
         <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
           I&apos;m currently open to backend engineering opportunities. Whether you have a
